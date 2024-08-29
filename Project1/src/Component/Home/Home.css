@@ -1,0 +1,59 @@
+.rings-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Ensure rings don't overflow the viewport */
+  }
+  
+  .rig {
+    position: absolute;
+    border-radius: 50%;
+    border-style: dashed;
+    border-color: white;
+    box-sizing: border-box;
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  /* import React from 'react';
+  import './App.css';
+  
+  const App = () => {
+    return (
+      <div className="rings-container">
+        {[1, 2, 3, 4, 5, 6].map((ring, index) => (
+          <div
+            key={index}
+            className="ring"
+            style={{
+              width: `${(index + 2) * 15}vw`,
+              height: `${(index + 1) * 15}vw`,
+              borderWidth: `${2}px`,
+              borderColor: '#C9C2FE', // Sky blue color
+            }}
+          />
+        ))}
+      </div>
+    );
+  };
+  
+  export default App; */
+  
