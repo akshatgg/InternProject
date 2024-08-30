@@ -1,8 +1,10 @@
 import './Home.css';
 import { GoArrowRight } from 'react-icons/go';
 import gitLogo from "../../assets/github.png";
-import driveLogo from '../../assets/React.png';
-
+import driveLogo from '../../assets/drive.png';
+import whatsapp from '../../assets/whatsapp.png';
+import insta from "../../assets/insta.png";
+import react from "../../assets/React.png";
 function Home() {
   return (
     <div className='flex flex-col items-center justify-center min-h-screen p-4'>
@@ -23,6 +25,38 @@ function Home() {
         ))}
 
         {/* GitHub Logo orbiting on the second ring */}
+
+
+
+        <div
+          className="absolute orbit-container"
+          style={{
+            width: `${(1 + 1) * 15}vw`, // Second ring size (index 1)
+            height: `${(1 + 1) * 15}vw`, // Second ring size (index 1)
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            animation: 'orbit 15s linear infinite' // Orbit animation
+          }}
+        >
+          <img
+            src={react}
+            alt="drive"
+            style={{
+              width: '50px', // Adjust size as needed
+              height: '50px',
+              position: 'absolute',
+              top: '0',
+              left: '50%',
+              transform: 'translateX(-50%)'
+            }}
+          />
+        </div>
+
+
+
+
+
         <div
           className="absolute orbit-container"
           style={{
@@ -31,7 +65,7 @@ function Home() {
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            animation: 'orbit 10s linear infinite' // Orbit animation
+            animation: 'orbit 15s linear infinite' // Orbit animation
           }}
         >
           <img
@@ -47,6 +81,98 @@ function Home() {
             }}
           />
         </div>
+
+
+        <div
+          className="absolute orbit-container"
+          style={{
+            width: `${(1 + 3) * 15}vw`, // Second ring size (index 1)
+            height: `${(1 + 3) * 15}vw`, // Second ring size (index 1)
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            animation: 'orbit 15s linear infinite' // Orbit animation
+          }}
+        >
+          <img
+            src={driveLogo}
+            alt="drive"
+            style={{
+              width: '50px', // Adjust size as needed
+              height: '50px',
+              position: 'absolute',
+              top: '0',
+              left: '50%',
+              transform: 'translateX(-50%)'
+            }}
+          />
+        </div>
+
+
+
+        <div
+          className="absolute orbit-container"
+          style={{
+            width: `${(1 + 4) * 15}vw`, // Second ring size (index 1)
+            height: `${(1 + 4) * 15}vw`, // Second ring size (index 1)
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            animation: 'orbit 15s linear infinite' // Orbit animation
+          }}
+        >
+          <img
+            src={whatsapp}
+            alt="drive"
+            style={{
+              width: '50px', // Adjust size as needed
+              height: '50px',
+              position: 'absolute',
+              top: '0',
+              left: '50%',
+              transform: 'translateX(-50%)'
+            }}
+          />
+        </div>
+
+
+
+
+
+
+
+        
+        <div
+          className="absolute orbit-container"
+          style={{
+            width: `${(1 + 5) * 15}vw`, // Second ring size (index 1)
+            height: `${(1 + 5) * 15}vw`, // Second ring size (index 1)
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            animation: 'orbit 15s linear infinite' // Orbit animation
+          }}
+        >
+          <img
+            src={insta}
+            alt="instagram"
+            style={{
+              width: '50px', // Adjust size as needed
+              height: '50px',
+              position: 'absolute',
+              top: '0',
+              left: '50%',
+              transform: 'translateX(-50%)'
+            }}
+          />
+        </div>
+
+
+
+
+
+
+
 
         <div className='absolute inset-0 flex flex-col items-center justify-center text-center'>
           <div className="text-6xl font-bold mb-4">

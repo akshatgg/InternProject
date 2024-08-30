@@ -17,55 +17,27 @@
   }
   
   
-  
-  
   @keyframes orbit {
     from {
-      transform: translate(-50%, -50%) rotate(0deg);
+      transform: rotate(0deg);
     }
     to {
-      transform: translate(-50%, -50%) rotate(360deg);
+      transform: rotate(360deg);
     }
   }
   
   .orbit-container {
-    animation: orbit 10s linear infinite;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
   }
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  /* import React from 'react';
-  import './App.css';
-  
-  const App = () => {
-    return (
-      <div className="rings-container">
-        {[1, 2, 3, 4, 5, 6].map((ring, index) => (
-          <div
-            key={index}
-            className="ring"
-            style={{
-              width: `${(index + 2) * 15}vw`,
-              height: `${(index + 1) * 15}vw`,
-              borderWidth: `${2}px`,
-              borderColor: '#C9C2FE', // Sky blue color
-            }}
-          />
-        ))}
-      </div>
-    );
-  };
-  
-  export default App; */
+  .orbit-container img {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
   
