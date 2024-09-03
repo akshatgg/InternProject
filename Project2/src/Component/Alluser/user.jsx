@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const Users = () => {
     const [users, setUsers] = useState([]);
@@ -19,7 +20,7 @@ const Users = () => {
 
         fetchUsers();
     }, []);
-
+    
     return (
         <div className="p-8">
             {loading ? (
@@ -39,11 +40,31 @@ const Users = () => {
                         <tbody>
                             {users.map(user => (
                                 <tr key={user.id} className="hover:bg-gray-100 transition-colors">
-                                    <td className="py-4 px-6 border-b border-gray-200 text-lg">{user.id}</td>
-                                    <td className="py-4 px-6 border-b border-gray-200 text-lg">{user.name}</td>
-                                    <td className="py-4 px-6 border-b border-gray-200 text-lg">{user.username}</td>
-                                    <td className="py-4 px-6 border-b border-gray-200 text-lg">{user.company.name}</td>
-                                    <td className="py-4 px-6 border-b border-gray-200 text-lg">{user.phone}</td>
+                                    <td className="py-4 px-6 border-b border-gray-200 text-lg">
+                                        <Link to={`user/${user.id}`}>
+                                            {user.id}
+                                        </Link>
+                                    </td>
+                                    <td className="py-4 px-6 border-b border-gray-200 text-lg">
+                                        <Link to={`user/${user.id}`}>
+                                            {user.name}
+                                        </Link>
+                                    </td>
+                                    <td className="py-4 px-6 border-b border-gray-200 text-lg">
+                                        <Link to={`user/${user.id}`}>
+                                            {user.username}
+                                        </Link>
+                                    </td>
+                                    <td className="py-4 px-6 border-b border-gray-200 text-lg">
+                                        <Link to={`user/${user.id}`}>
+                                            {user.company.name}
+                                        </Link>
+                                    </td>
+                                    <td className="py-4 px-6 border-b border-gray-200 text-lg">
+                                        <Link to={`user/${user.id}`}>
+                                            {user.phone}
+                                        </Link>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>

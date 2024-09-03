@@ -1,15 +1,20 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
+import { BrowserRouter as Router, Routes, Route,useParams } from 'react-router-dom';
+import Profile from './Component/Userprofile/profile.jsx';
 import './App.css'
 import User from "./Component/Alluser/user.jsx"
 function App() {
-  const [count, setCount] = useState(0)
-
+  const { id } = useParams();
   return (
     <div>
+      <Router>
+         <Routes>
+            <Route path="" element={<User/>} />
+            <Route path="/user/:id" element={<Profile/>}/>
+         </Routes>
+      </Router>
 
-<User/>
 
 
     </div>
