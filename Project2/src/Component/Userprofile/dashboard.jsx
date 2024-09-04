@@ -33,6 +33,12 @@ const Dashboard = ({ name, email, phoneNumber, city }) => {
             <p className="text-2xl text-gray-900">{city}</p>
           </div>
         </div>
+
+        <div className='flex justify-center items-center text-center '>
+          <button className="bg-blue-400 rounded-xl p-3 text-lg hover:bg-blue-500 mt-4">
+            More activities
+          </button>
+        </div>
       </div>
     </div>
   );

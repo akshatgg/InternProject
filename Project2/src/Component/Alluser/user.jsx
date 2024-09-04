@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Spinner from '../../Spinner/Spinner';
 
 const Users = () => {
     const [users, setUsers] = useState([]);
@@ -23,22 +24,26 @@ const Users = () => {
     
     return (
         <div className="p-8">
-            {loading ? (
-                <p className="text-xl font-bold text-center">Loading...</p>
-            ) : (
-                <div className="overflow-x-auto">
-                    <table className="min-w-full bg-white border border-gray-300 shadow-lg rounded-lg">
-                        <thead className="bg-gray-800 text-white">
+            <div className="overflow-x-auto">
+                <table className="min-w-full bg-white border border-gray-300 shadow-lg rounded-lg">
+                    <thead className="bg-gray-800 text-white">
+                        <tr>
+                            <th className="py-3 px-6 border-b border-gray-200 text-left text-lg font-medium">ID</th>
+                            <th className="py-3 px-6 border-b border-gray-200 text-left text-lg font-medium">Name</th>
+                            <th className="py-3 px-6 border-b border-gray-200 text-left text-lg font-medium">Username</th>
+                            <th className="py-3 px-6 border-b border-gray-200 text-left text-lg font-medium">Company</th>
+                            <th className="py-3 px-6 border-b border-gray-200 text-left text-lg font-medium">Phone</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {loading ? (
                             <tr>
-                                <th className="py-3 px-6 border-b border-gray-200 text-left text-lg font-medium">ID</th>
-                                <th className="py-3 px-6 border-b border-gray-200 text-left text-lg font-medium">Name</th>
-                                <th className="py-3 px-6 border-b border-gray-200 text-left text-lg font-medium">Username</th>
-                                <th className="py-3 px-6 border-b border-gray-200 text-left text-lg font-medium">Company</th>
-                                <th className="py-3 px-6 border-b border-gray-200 text-left text-lg font-medium">Phone</th>
+                                <td colSpan="5" className="text-center py-4">
+                                    <Spinner />
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {users.map(user => (
+                        ) : (
+                            users.map(user => (
                                 <tr key={user.id} className="hover:bg-gray-100 transition-colors">
                                     <td className="py-4 px-6 border-b border-gray-200 text-lg">
                                         <Link to={`user/${user.id}`}>
@@ -66,11 +71,11 @@ const Users = () => {
                                         </Link>
                                     </td>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            )}
+                            ))
+                        )}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 };

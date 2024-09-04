@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Dashboard from './dashboard.jsx';
 import { useParams } from 'react-router-dom';
+import Spinner from '../../Spinner/Spinner.jsx';
 
 function Profile() {
     const [details, setDetails] = useState([]);
@@ -26,7 +27,7 @@ function Profile() {
     const user = details.find(user => user.id === parseInt(id, 10));
 
     if (loading) {
-        return <div>Loading...</div>; // Show a loading message while fetching data
+        return <div><Spinner/></div>; // Show a loading message while fetching data
     }
 
     if (!user) {
