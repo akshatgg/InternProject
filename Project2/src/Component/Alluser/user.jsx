@@ -24,7 +24,7 @@ const Users = () => {
     
     return (
         <div className="p-8">
-               <div className="text-center font-serif font-bold text-5xl">
+               <div className="text-center font-serif font-bold text-4xl">
                         <h1>-Users List-</h1>
                         </div>
             <div className="overflow-x-auto mt-5">

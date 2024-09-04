@@ -28,7 +28,7 @@ function Activities() {
                 <Spinner />
             ) : (
                 <div className="overflow-x-auto p-7">
-                    <div className="text-center font-serif font-bold text-5xl">
+                    <div className="text-center font-serif font-bold text-4xl">
                         <h1>-History-</h1>
                         </div>
                     <table className="w-full bg-white border border-gray-300 shadow-lg rounded-lg mt-6 ">
