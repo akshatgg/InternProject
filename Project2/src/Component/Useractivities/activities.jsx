@@ -27,8 +27,11 @@ function Activities() {
             {loading ? (
                 <Spinner />
             ) : (
-                <div className="overflow-x-auto">
-                    <table className="w-full bg-white border border-gray-300 shadow-lg rounded-lg">
+                <div className="overflow-x-auto p-7">
+                    <div className="text-center font-serif font-bold text-5xl">
+                        <h1>-History-</h1>
+                        </div>
+                    <table className="w-full bg-white border border-gray-300 shadow-lg rounded-lg mt-6 ">
                         <thead className="bg-gray-800 text-white">
                             <tr>
                                 <th className="py-3 px-6 border-b border-gray-200 text-left text-lg font-medium">ID</th>

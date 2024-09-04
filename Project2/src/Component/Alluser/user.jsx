@@ -24,7 +24,10 @@ const Users = () => {
     
     return (
         <div className="p-8">
-            <div className="overflow-x-auto">
+               <div className="text-center font-serif font-bold text-5xl">
+                        <h1>-Users List-</h1>
+                        </div>
+            <div className="overflow-x-auto mt-5">
                 <table className="min-w-full bg-white border border-gray-300 shadow-lg rounded-lg">
                     <thead className="bg-gray-800 text-white">
                         <tr>
