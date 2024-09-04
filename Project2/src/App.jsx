@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route,useParams } from 'react-router-d
 import Profile from './Component/Userprofile/profile.jsx';
 import './App.css'
 import User from "./Component/Alluser/user.jsx"
+// import.meta.env.REACT_APP_API_KEY
 function App() {
   return (
     <div>
