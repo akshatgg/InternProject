@@ -1,5 +1,5 @@
 import { useState } from 'react'
-
+import Activities from './Component/Useractivities/activities.jsx';
 import { BrowserRouter as Router, Routes, Route,useParams } from 'react-router-dom';
 import Profile from './Component/Userprofile/profile.jsx';
 import './App.css'
@@ -11,6 +11,8 @@ function App() {
          <Routes>
             <Route path="" element={<User/>} />
             <Route path="/user/:id" element={<Profile/>}/>
+            <Route path="/user/:id/activities" element={<Activities/>}  />
+          
          </Routes>
       </Router>
 

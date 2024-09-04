@@ -1,6 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+
 
 const Dashboard = ({ name, email, phoneNumber, city }) => {
+  const { id } = useParams();
   return (
     <div className="min-h-screen bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 flex items-center justify-center">
       <div className="bg-white p-12 rounded-3xl shadow-2xl max-w-3xl w-full transform transition duration-500 hover:scale-105">
@@ -35,9 +39,11 @@ const Dashboard = ({ name, email, phoneNumber, city }) => {
         </div>
 
         <div className='flex justify-center items-center text-center '>
+          <Link to={`activities`}>
           <button className="bg-blue-400 rounded-xl p-3 text-lg hover:bg-blue-500 mt-4">
             More activities
           </button>
+          </Link>
         </div>
       </div>
     </div>
