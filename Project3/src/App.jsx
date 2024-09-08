@@ -3,11 +3,12 @@ import Draggable from 'react-draggable';
 import './index.css';
 
 function App() {
-  const [textItems, setTextItems] = useState([]); // Text items to display on the screen
-  const [history, setHistory] = useState([]); // History stack for undo/redo
-  const [future, setFuture] = useState([]); // Future stack for redo
+  const [textItems, setTextItems] = useState([]); 
+  const [history, setHistory] = useState([]);
+  const [future, setFuture] = useState([]);
+  const [fontStyles, setFontStyles] = useState({});
+  const [selectedId, setSelectedId] = useState(null);
 
-  // Function to add new text
   const addText = () => {
     const newText = prompt('Enter your text:');
     if (newText) {
@@ -15,24 +16,27 @@ function App() {
         id: Date.now(),
         text: newText,
         position: { x: 100, y: 100 },
+        font: 'Arial',
       };
-      setHistory([...history, textItems]); // Save current state to history for undo
-      setFuture([]); // Clear future on new action
+      setHistory([...history, textItems]);
+      setFuture([]);
       setTextItems([...textItems, newItem]);
+      setFontStyles({
+        ...fontStyles,
+        [newItem.id]: newItem.font,
+      });
     }
   };
 
-  // Function to update the position of the dragged text
   const updatePosition = (e, data, id) => {
     const updatedItems = textItems.map((item) =>
       item.id === id ? { ...item, position: { x: data.x, y: data.y } } : item
     );
-    setHistory([...history, textItems]); // Save current state to history for undo
-    setFuture([]); // Clear future on new action
+    setHistory([...history, textItems]);
+    setFuture([]);
     setTextItems(updatedItems);
   };
 
-  // Undo function
   const undo = () => {
     if (history.length === 0) return;
     const lastState = history[history.length - 1];
@@ -41,7 +45,6 @@ function App() {
     setTextItems(lastState);
   };
 
-  // Redo function
   const redo = () => {
     if (future.length === 0) return;
     const nextState = future[0];
@@ -50,24 +53,40 @@ function App() {
     setTextItems(nextState);
   };
 
+  const selectFont = () => {
+    if (selectedId === null) return;
+    const newFont = prompt('Enter the font family (e.g., Arial, Times New Roman):');
+    if (newFont) {
+      setFontStyles({
+        ...fontStyles,
+        [selectedId]: newFont,
+      });
+    }
+  };
+
+  const handleSelect = (id) => {
+    setSelectedId(id);
+  };
+
   return (
     <div className="flex flex-col items-center justify-between min-h-screen bg-gray-100">
-      {/* Main drawing area */}
-      <div className="relative border-2 border-gray-400 bg-white w-full h-full" style={{ height: '85vh' }}>
+      <div className="relative border-2 w-full h-full" style={{ height: '85vh' }}>
         {textItems.map((item) => (
           <Draggable
             key={item.id}
             position={item.position}
             onStop={(e, data) => updatePosition(e, data, item.id)}
           >
-            <div className="absolute bg-blue-500 text-white p-2 rounded-md cursor-move">
+            <div
+              className="absolute p-2 rounded-md cursor-move"
+              style={{ fontFamily: fontStyles[item.id] }}
+              onClick={() => handleSelect(item.id)}
+            >
               {item.text}
             </div>
           </Draggable>
         ))}
       </div>
-
-      {/* Buttons for adding text, undo, redo */}
       <div className="w-full flex justify-center bg-gray-200 py-4 space-x-4">
         <button
           onClick={addText}
@@ -88,6 +107,13 @@ function App() {
           className={`px-4 py-2 rounded-md ${future.length === 0 ? 'bg-gray-400' : 'bg-green-500 text-white'}`}
         >
           Redo
+        </button>
+        <button
+          onClick={selectFont}
+          disabled={selectedId === null}
+          className={`px-4 py-2 rounded-md ${selectedId === null ? 'bg-gray-400' : 'bg-blue-500 text-white'}`}
+        >
+          Change Font
         </button>
       </div>
     </div>
