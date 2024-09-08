@@ -8,7 +8,7 @@ function App() {
   const [future, setFuture] = useState([]);
   const [fontStyles, setFontStyles] = useState({});
   const [selectedId, setSelectedId] = useState(null);
-  const [fontSizes, setFontSizes] = useState({}); // Track font sizes for each item
+  const [fontSizes, setFontSizes] = useState({});
 
   const addText = () => {
     const newText = prompt('Enter your text:');
@@ -21,7 +21,7 @@ function App() {
         isBold: false,
         isItalic: false,
         isUnderline: false,
-        fontSize: 16, // default font size
+        fontSize: 16,
       };
       setHistory([...history, textItems]);
       setFuture([]);
@@ -112,7 +112,7 @@ function App() {
   const decreaseFontSize = () => {
     if (selectedId === null) return;
     const updatedItems = textItems.map((item) =>
-      item.id === selectedId ? { ...item, fontSize: Math.max(item.fontSize - 2, 10) } : item // Min font size is 10
+      item.id === selectedId ? { ...item, fontSize: Math.max(item.fontSize - 2, 10) } : item
     );
     setTextItems(updatedItems);
     setFontSizes({
@@ -206,22 +206,30 @@ function App() {
           Underline
         </button>
       </div>
-      <div className="w-full flex justify-center bg-gray-200 py-4 space-x-4">
-        <button
-          onClick={increaseFontSize}
-          disabled={selectedId === null}
-          className={`px-2 py-1 rounded-md text-sm ${selectedId === null ? 'bg-gray-400' : 'bg-black text-white'}`}
-        >
-          +
-        </button>
-        <button
-          onClick={decreaseFontSize}
-          disabled={selectedId === null}
-          className={`px-2 py-1 rounded-md text-sm ${selectedId === null ? 'bg-gray-400' : 'bg-black text-white'}`}
-        >
-          -
-        </button>
-      </div>
+      <div className="w-full flex justify-center bg-gray-200 py-4 space-x-2">
+  <button
+    onClick={increaseFontSize}
+    disabled={selectedId === null}
+    className={`px-2 py-1 rounded-md text-sm ${selectedId === null ? 'bg-gray-400' : 'bg-black text-white'}`}
+  >
+    +
+  </button>
+
+  {/* Only display the font size without any extra text */}
+  <span className="text-black mx-4 border border-gray-400 rounded-lg">
+    {selectedId !== null ? `${fontSizes[selectedId] || 16}px` : ''}
+  </span>
+
+  <button
+    onClick={decreaseFontSize}
+    disabled={selectedId === null}
+    className={`px-2 py-1 rounded-md text-sm ${selectedId === null ? 'bg-gray-400' : 'bg-black text-white'}`}
+  >
+    -
+  </button>
+</div>
+
+  
     </div>
   );
 }
