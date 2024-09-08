@@ -8,6 +8,7 @@ function App() {
   const [future, setFuture] = useState([]);
   const [fontStyles, setFontStyles] = useState({});
   const [selectedId, setSelectedId] = useState(null);
+  const [fontSizes, setFontSizes] = useState({}); // Track font sizes for each item
 
   const addText = () => {
     const newText = prompt('Enter your text:');
@@ -20,6 +21,7 @@ function App() {
         isBold: false,
         isItalic: false,
         isUnderline: false,
+        fontSize: 16, // default font size
       };
       setHistory([...history, textItems]);
       setFuture([]);
@@ -27,6 +29,10 @@ function App() {
       setFontStyles({
         ...fontStyles,
         [newItem.id]: newItem.font,
+      });
+      setFontSizes({
+        ...fontSizes,
+        [newItem.id]: newItem.fontSize,
       });
     }
   };
@@ -91,6 +97,30 @@ function App() {
     setTextItems(updatedItems);
   };
 
+  const increaseFontSize = () => {
+    if (selectedId === null) return;
+    const updatedItems = textItems.map((item) =>
+      item.id === selectedId ? { ...item, fontSize: item.fontSize + 2 } : item
+    );
+    setTextItems(updatedItems);
+    setFontSizes({
+      ...fontSizes,
+      [selectedId]: (fontSizes[selectedId] || 16) + 2,
+    });
+  };
+
+  const decreaseFontSize = () => {
+    if (selectedId === null) return;
+    const updatedItems = textItems.map((item) =>
+      item.id === selectedId ? { ...item, fontSize: Math.max(item.fontSize - 2, 10) } : item // Min font size is 10
+    );
+    setTextItems(updatedItems);
+    setFontSizes({
+      ...fontSizes,
+      [selectedId]: Math.max((fontSizes[selectedId] || 16) - 2, 10),
+    });
+  };
+
   const handleSelect = (id) => {
     setSelectedId(id);
   };
@@ -101,6 +131,7 @@ function App() {
     if (item.isItalic) style.fontStyle = 'italic';
     if (item.isUnderline) style.textDecoration = 'underline';
     style.fontFamily = fontStyles[item.id];
+    style.fontSize = fontSizes[item.id] || 16;
     return style;
   };
 
@@ -123,56 +154,72 @@ function App() {
           </Draggable>
         ))}
       </div>
-      <div className="w-full flex justify-center bg-gray-300 py-4 space-x-4">
+      <div className="w-full flex justify-center bg-gray-200 py-4 space-x-4">
         <button
           onClick={addText}
-          className="bg-black text-white px-2 py-1 rounded-md text-sm hover:bg-slate-700"
+          className="bg-black text-white px-2 py-1 rounded-md text-sm"
         >
           Add Text
         </button>
         <button
           onClick={undo}
           disabled={history.length === 0}
-          className={`px-2 py-1 rounded-md  hover:bg-slate-700 text-sm ${history.length === 0 ? 'bg-gray-400' : 'bg-black text-white'}`}
+          className={`px-2 py-1 rounded-md text-sm ${history.length === 0 ? 'bg-gray-400' : 'bg-black text-white'}`}
         >
           Undo
         </button>
         <button
           onClick={redo}
           disabled={future.length === 0}
-          className={`px-2 py-1 rounded-md  hover:bg-slate-700 text-sm ${future.length === 0 ? 'bg-gray-400' : 'bg-black text-white'}`}
+          className={`px-2 py-1 rounded-md text-sm ${future.length === 0 ? 'bg-gray-400' : 'bg-black text-white'}`}
         >
           Redo
         </button>
         <button
           onClick={selectFont}
           disabled={selectedId === null}
-          className={`px-2 py-1 rounded-md  hover:bg-slate-700 text-sm ${selectedId === null ? 'bg-gray-400' : 'bg-black text-white'}`}
+          className={`px-2 py-1 rounded-md text-sm ${selectedId === null ? 'bg-gray-400' : 'bg-black text-white'}`}
         >
           Change Font
         </button>
       </div>
-      <div className="w-full flex justify-center  bg-gray-300 py-4 space-x-4">
+      <div className="w-full flex justify-center bg-gray-200 py-4 space-x-4">
         <button
           onClick={toggleBold}
           disabled={selectedId === null}
-          className={`px-2 py-1 rounded-md  hover:bg-slate-700 text-sm ${selectedId === null ? 'bg-gray-400' : 'bg-black text-white'}`}
+          className={`px-2 py-1 rounded-md text-sm ${selectedId === null ? 'bg-gray-400' : 'bg-black text-white'}`}
         >
           Bold
         </button>
         <button
           onClick={toggleItalic}
           disabled={selectedId === null}
-          className={`px-2 py-1 rounded-md  hover:bg-slate-700 text-sm ${selectedId === null ? 'bg-gray-400' : 'bg-black text-white'}`}
+          className={`px-2 py-1 rounded-md text-sm ${selectedId === null ? 'bg-gray-400' : 'bg-black text-white'}`}
         >
           Italic
         </button>
         <button
           onClick={toggleUnderline}
           disabled={selectedId === null}
-          className={`px-2 py-1 rounded-md  hover:bg-slate-700 text-sm ${selectedId === null ? 'bg-gray-400' : 'bg-black text-white'}`}
+          className={`px-2 py-1 rounded-md text-sm ${selectedId === null ? 'bg-gray-400' : 'bg-black text-white'}`}
         >
           Underline
+        </button>
+      </div>
+      <div className="w-full flex justify-center bg-gray-200 py-4 space-x-4">
+        <button
+          onClick={increaseFontSize}
+          disabled={selectedId === null}
+          className={`px-2 py-1 rounded-md text-sm ${selectedId === null ? 'bg-gray-400' : 'bg-black text-white'}`}
+        >
+          +
+        </button>
+        <button
+          onClick={decreaseFontSize}
+          disabled={selectedId === null}
+          className={`px-2 py-1 rounded-md text-sm ${selectedId === null ? 'bg-gray-400' : 'bg-black text-white'}`}
+        >
+          -
         </button>
       </div>
     </div>
