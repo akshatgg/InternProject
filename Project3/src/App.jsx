@@ -124,7 +124,7 @@ function App() {
   const handleSelect = (id) => {
     setSelectedId(id);
   };
-
+  
   const getStyle = (item) => {
     let style = {};
     if (item.isBold) style.fontWeight = 'bold';
@@ -154,7 +154,8 @@ function App() {
           </Draggable>
         ))}
       </div>
-      <div className="w-full flex justify-center bg-gray-200 py-4 space-x-4">
+      <div className='bg-gray-200 w-full h-full space-y-2 p-2'>
+      <div className="w-full flex justify-center bg-gray-200  space-x-2">
         <button
           onClick={addText}
           className="bg-black text-white px-2 py-1 rounded-md text-sm"
@@ -183,7 +184,7 @@ function App() {
           Change Font
         </button>
       </div>
-      <div className="w-full flex justify-center bg-gray-200 py-4 space-x-4">
+      <div className="w-full flex justify-center bg-gray-200  space-x-2">
         <button
           onClick={toggleBold}
           disabled={selectedId === null}
@@ -206,7 +207,7 @@ function App() {
           Underline
         </button>
       </div>
-      <div className="w-full flex justify-center bg-gray-200 py-4 space-x-2">
+      <div className="w-full flex justify-center bg-gray-200  space-x-2">
   <button
     onClick={increaseFontSize}
     disabled={selectedId === null}
@@ -227,7 +228,8 @@ function App() {
   >
     -
   </button>
-</div>
+      </div>
+      </div>
 
   
     </div>
