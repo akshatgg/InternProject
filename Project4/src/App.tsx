@@ -6,7 +6,8 @@ import { ProductService } from './service/ProductService'
 
 export default function PaginatorBasicDemo() {
     const [products,setProducts] = useState([]);
-
+    const [selectedProducts, setSelectedProducts] = useState(null);
+    const [rowClick, setRowClick] = useState(true);
     useEffect(() => {
       const loadProducts = async () => {
           try {
@@ -21,7 +22,8 @@ export default function PaginatorBasicDemo() {
 
     return (
         <div className="card">
-            <DataTable value={products} paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]} tableStyle={{ minWidth: '50rem' }}>
+            <DataTable value={products} paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]} tableStyle={{ minWidth: '50rem' }} selectionMode={rowClick ? null : 'checkbox'} selection={selectedProducts} onSelectionChange={(e) => setSelectedProducts(e.value)} dataKey="id" >
+            <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
                 <Column field="title" header="Title" style={{ width: '25%' }}></Column>
                 <Column field="place_of_origin" header="Origin" style={{ width: '25%' }}></Column>
                 <Column field="artist_display" header="Artist" style={{ width: '25%' }}></Column>
