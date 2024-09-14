@@ -15,10 +15,9 @@ export default function PaginatorBasicDemo() {
   const loadProducts = async (page: number) => {
     setLoading(true);
     try {
-      const data = await ProductService.fetchData(page);
+      const { data, pagination } = await ProductService.fetchData(page);
       setProducts(data);
-      // Assuming the total records are available in the API response's pagination information
-      setTotalRecords(100); // Set a total count for now, adjust this based on your API's response
+      setTotalRecords(pagination.total); // Set total records based on API response
     } catch (error) {
       console.error('Error fetching data:', error);
     }
