@@ -4,8 +4,7 @@ import { Column } from 'primereact/column';
 import { ProductService } from './service/ProductService';
 import { OverlayPanel } from 'primereact/overlaypanel';
 import { Button } from 'primereact/button';
-import { AutoComplete } from "primereact/autocomplete";
-
+import { InputText } from 'primereact/inputtext'; // Import InputText component
 
 export default function PaginatorBasicDemo() {
   const op = useRef<OverlayPanel>(null); // Ref type set to OverlayPanel or null
@@ -17,7 +16,7 @@ export default function PaginatorBasicDemo() {
   const [loading, setLoading] = useState(false);
   const [first, setFirst] = useState(0);
   const rowsPerPage = 12; // Set the number of rows per page
-  
+
   const loadProducts = async (page: number) => {
     setLoading(true);
     try {
@@ -44,9 +43,13 @@ export default function PaginatorBasicDemo() {
   const titleHeaderTemplate = () => {
     return (
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <Button type="button" icon="pi pi-image" className="p-button-text p-ml-2" onClick={(e) => op.current?.toggle(e)} />
+        <Button type="button" icon="pi pi-chevron-down" className="p-button-text p-ml-2" onClick={(e) => op.current?.toggle(e)} />
         {/* Null check with optional chaining */}
         <OverlayPanel ref={op}>
+          <div style={{ padding: '10px' }}>
+            <InputText placeholder="Select the rows" style={{ width: '100%', marginBottom: '10px' }} />
+            <Button label="Submit" icon="pi pi-check" />
+          </div>
         </OverlayPanel>
         <span>Title</span>
       </div>
