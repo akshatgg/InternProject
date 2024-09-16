@@ -4,84 +4,98 @@ import { Column } from 'primereact/column';
 import { ProductService } from './service/ProductService';
 import { OverlayPanel } from 'primereact/overlaypanel';
 import { Button } from 'primereact/button';
-import { InputText } from 'primereact/inputtext'; // Import InputText component
+import { InputText } from 'primereact/inputtext';
 
 export default function PaginatorBasicDemo() {
-  const op = useRef<OverlayPanel>(null); // Ref type set to OverlayPanel or null
+  const op = useRef<OverlayPanel>(null);
 
   const [products, setProducts] = useState<any[]>([]);
   const [selectedProducts, setSelectedProducts] = useState<any[]>([]);
-  const [rowClick, setRowClick] = useState(true);
   const [totalRecords, setTotalRecords] = useState(0);
   const [loading, setLoading] = useState(false);
   const [first, setFirst] = useState(0);
-  const [inputValue, setInputValue] = useState(''); // State to store input value
-  const rowsPerPage = 12; // Set the number of rows per page
+  const [inputValue, setInputValue] = useState('');
+  const rowsPerPage = 12;
 
   const loadProducts = async (page: number) => {
     setLoading(true);
     try {
       const { data, pagination } = await ProductService.fetchData(page);
-      setProducts(data);
-      setTotalRecords(pagination.total); // Set total records based on API response
+      return { data, pagination };
     } catch (error) {
       console.error('Error fetching data:', error);
+      return { data: [], pagination: { total: 0 } };
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   useEffect(() => {
-    loadProducts(1); // Load the first page initially
+    const loadInitialData = async () => {
+      const { data, pagination } = await loadProducts(1);
+      setProducts(data);
+      setTotalRecords(pagination.total);
+    };
+    loadInitialData();
   }, []);
 
-  const onPageChange = (event: { first: number, rows: number }) => {
-    const page = event.first / rowsPerPage + 1; // Calculate the page number
-    setFirst(event.first); // Keep track of first record index
-    loadProducts(page); // Load products for the new page
+  const onPageChange = async (event: { first: number; rows: number }) => {
+    const page = Math.floor(event.first / rowsPerPage) + 1;
+    setFirst(event.first);
+    const { data } = await loadProducts(page);
+    setProducts(data);
   };
 
-  // Handle submit button click to select specific row
-  const handleSubmit = () => {
-    // Try to convert input to number
-    const rowNumber = parseInt(inputValue, 10);
-
-    // Check if input is a valid row number and exists in products
-    if (!isNaN(rowNumber) && rowNumber > 0 && rowNumber <= products.length) {
-      const selectedRow = products[rowNumber - 1]; // Assuming rowNumber starts from 1
-      setSelectedProducts([selectedRow]); // Select the row based on input
-    } else {
-      setSelectedProducts([]); // Deselect if the input is invalid
+  const handleSubmit = async () => {
+    const totalRowsToSelect = parseInt(inputValue, 10);
+    if (isNaN(totalRowsToSelect) || totalRowsToSelect <= 0) {
+      setSelectedProducts([]);
+      op.current?.hide();
+      return;
     }
 
-    // Hide the OverlayPanel after selecting the row
+    let rowsSelected: any[] = [];
+    let currentPage = 1;
+    let pagesLoaded: Set<number> = new Set();
+
+    while (rowsSelected.length < totalRowsToSelect && rowsSelected.length < totalRecords) {
+      if (!pagesLoaded.has(currentPage)) {
+        const { data } = await loadProducts(currentPage);
+        pagesLoaded.add(currentPage);
+        rowsSelected = [...rowsSelected, ...data];
+        if (rowsSelected.length >= totalRowsToSelect) {
+          rowsSelected = rowsSelected.slice(0, totalRowsToSelect);
+        }
+      }
+      currentPage++;
+    }
+
+    setSelectedProducts(rowsSelected);
     op.current?.hide();
   };
 
-  // Custom header template for Title column
-  const titleHeaderTemplate = () => {
-    return (
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <Button
-          type="button"
-          icon="pi pi-chevron-down"
-          className="p-button-text p-ml-2"
-          onClick={(e) => op.current?.toggle(e)}
-        />
-        <OverlayPanel ref={op}>
-          <div style={{ padding: '10px' }}>
-            <InputText
-              placeholder="Select the rows"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)} // Store the input value
-              style={{ width: '100%', marginBottom: '10px' }}
-            />
-            <Button label="Submit" icon="pi pi-check" onClick={handleSubmit} />
-          </div>
-        </OverlayPanel>
-        <span>Title</span>
-      </div>
-    );
-  };
+  const titleHeaderTemplate = () => (
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+      <Button
+        type="button"
+        icon="pi pi-chevron-down"
+        className="p-button-text p-ml-2"
+        onClick={(e) => op.current?.toggle(e)}
+      />
+      <OverlayPanel ref={op}>
+        <div style={{ padding: '10px' }}>
+          <InputText
+            placeholder="Select the rows"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            style={{ width: '100%', marginBottom: '10px' }}
+          />
+          <Button label="Submit" icon="pi pi-check" onClick={handleSubmit} />
+        </div>
+      </OverlayPanel>
+      <span>Title</span>
+    </div>
+  );
 
   return (
     <div className="card">
@@ -96,7 +110,7 @@ export default function PaginatorBasicDemo() {
         first={first}
         onPage={onPageChange}
         tableStyle={{ minWidth: '50rem' }}
-        selectionMode={rowClick ? null : 'checkbox'}
+        selectionMode="multiple"
         selection={selectedProducts}
         onSelectionChange={(e: { value: any[] }) => setSelectedProducts(e.value)}
         dataKey="id"
