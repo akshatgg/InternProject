@@ -8,13 +8,14 @@ import { InputText } from 'primereact/inputtext'; // Import InputText component
 
 export default function PaginatorBasicDemo() {
   const op = useRef<OverlayPanel>(null); // Ref type set to OverlayPanel or null
-  
+
   const [products, setProducts] = useState<any[]>([]);
   const [selectedProducts, setSelectedProducts] = useState<any[]>([]);
   const [rowClick, setRowClick] = useState(true);
   const [totalRecords, setTotalRecords] = useState(0);
   const [loading, setLoading] = useState(false);
   const [first, setFirst] = useState(0);
+  const [inputValue, setInputValue] = useState(''); // State to store input value
   const rowsPerPage = 12; // Set the number of rows per page
 
   const loadProducts = async (page: number) => {
@@ -39,16 +40,42 @@ export default function PaginatorBasicDemo() {
     loadProducts(page); // Load products for the new page
   };
 
+  // Handle submit button click to select specific row
+  const handleSubmit = () => {
+    // Try to convert input to number
+    const rowNumber = parseInt(inputValue, 10);
+
+    // Check if input is a valid row number and exists in products
+    if (!isNaN(rowNumber) && rowNumber > 0 && rowNumber <= products.length) {
+      const selectedRow = products[rowNumber - 1]; // Assuming rowNumber starts from 1
+      setSelectedProducts([selectedRow]); // Select the row based on input
+    } else {
+      setSelectedProducts([]); // Deselect if the input is invalid
+    }
+
+    // Hide the OverlayPanel after selecting the row
+    op.current?.hide();
+  };
+
   // Custom header template for Title column
   const titleHeaderTemplate = () => {
     return (
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <Button type="button" icon="pi pi-chevron-down" className="p-button-text p-ml-2" onClick={(e) => op.current?.toggle(e)} />
-        {/* Null check with optional chaining */}
+        <Button
+          type="button"
+          icon="pi pi-chevron-down"
+          className="p-button-text p-ml-2"
+          onClick={(e) => op.current?.toggle(e)}
+        />
         <OverlayPanel ref={op}>
           <div style={{ padding: '10px' }}>
-            <InputText placeholder="Select the rows" style={{ width: '100%', marginBottom: '10px' }} />
-            <Button label="Submit" icon="pi pi-check" />
+            <InputText
+              placeholder="Select the rows"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)} // Store the input value
+              style={{ width: '100%', marginBottom: '10px' }}
+            />
+            <Button label="Submit" icon="pi pi-check" onClick={handleSubmit} />
           </div>
         </OverlayPanel>
         <span>Title</span>
