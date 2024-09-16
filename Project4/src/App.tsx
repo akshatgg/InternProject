@@ -1,9 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { ProductService } from './service/ProductService';
+import { OverlayPanel } from 'primereact/overlaypanel';
+import { Button } from 'primereact/button';
+import { AutoComplete } from "primereact/autocomplete";
+
 
 export default function PaginatorBasicDemo() {
+  const op = useRef<OverlayPanel>(null); // Ref type set to OverlayPanel or null
+  
   const [products, setProducts] = useState<any[]>([]);
   const [selectedProducts, setSelectedProducts] = useState<any[]>([]);
   const [rowClick, setRowClick] = useState(true);
@@ -34,6 +40,19 @@ export default function PaginatorBasicDemo() {
     loadProducts(page); // Load products for the new page
   };
 
+  // Custom header template for Title column
+  const titleHeaderTemplate = () => {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <Button type="button" icon="pi pi-image" className="p-button-text p-ml-2" onClick={(e) => op.current?.toggle(e)} />
+        {/* Null check with optional chaining */}
+        <OverlayPanel ref={op}>
+        </OverlayPanel>
+        <span>Title</span>
+      </div>
+    );
+  };
+
   return (
     <div className="card">
       <DataTable
@@ -53,7 +72,7 @@ export default function PaginatorBasicDemo() {
         dataKey="id"
       >
         <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
-        <Column field="title" header="Title" style={{ width: '25%' }}></Column>
+        <Column field="title" header={titleHeaderTemplate} style={{ width: '25%' }}></Column>
         <Column field="place_of_origin" header="Origin" style={{ width: '25%' }}></Column>
         <Column field="artist_display" header="Artist" style={{ width: '25%' }}></Column>
         <Column field="inscriptions" header="Inscriptions" style={{ width: '25%' }}></Column>
